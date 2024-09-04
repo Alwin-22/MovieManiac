@@ -1,6 +1,6 @@
 import React from 'react'
 
-import "./Navbar.css"
+import "./navbar.css"
 import Fire from '../../assets/fire.png'
 import Star from '../../assets/star.png'
 import Party from '../../assets/party.png'
