@@ -12,7 +12,7 @@ const MovieCard = ({movie}) => {
         <h3 className="movie_details_heading">{movie.original_title}</h3>
         <div className='movie_date_rate'>
             <p>{movie.release_date}</p>
-            <p>{movie.vote_average} <img src={Star} alt="rating icon" className='card_emoji'/></p>
+            <p>{movie.vote_average.toFixed(1)} <img src={Star} alt="rating icon" className='card_emoji'/></p>
         </div>
         <p className='movie_description'>{movie.overview.slice(0,100)+ "..."}</p>
     </div>

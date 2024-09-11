@@ -3,9 +3,13 @@ import React, { useEffect, useState } from 'react'
 import "./movieList.css";
 import Fire from "../../assets/fire.png"
 import MovieCard from '../MovieCard/movieCard';
+import FilterGroup from './FilterGroup';
 
 const MovieList = () => {
     const [movies, setMovies] = useState([])
+    const [filterMovies, setFilterMovies] = useState([])
+    const [minRating, setMinRating] = useState(0)
+
     useEffect(()=> {
         fetchMovies()
     },[])
@@ -15,19 +19,29 @@ const MovieList = () => {
         )
         const data = await response.json();
         setMovies(data.results)
+        setFilterMovies(data.results)
         
     } 
+    const handleFilter = rate => {
+        if(rate === minRating){
+            setMinRating(0)
+            setFilterMovies(movies)
+        }else{
+            setMinRating(rate);
+    
+            const filtered = movies.filter((movie)=>movie.vote_average>= rate)
+            setFilterMovies(filtered)
+
+        }
+    }
+
   return (
     <section className='movie_List'>
         <header className='align_center movie_list_header'>
             <h2 className='align_center movie_list_heading'>Popular <img src={Fire} alt="fire emoji" className='navbar_emoji'/></h2>
 
             <div className='align_center movie_list-fs'>
-            <ul className="align_center movie_filter">
-                <li className="movie_filter_item active">8+ Star</li>
-                <li className="movie_filter_item">7+ Star</li>
-                <li className="movie_filter_item">6+ Star</li>
-            </ul>
+            <FilterGroup minRating={minRating} onRatingClick = {handleFilter} ratings={[8,7,6]}/>
             <select name="" id="" className="movie_sorting">
                 <option value="">Sort By</option>
                 <option value="">Date</option>
@@ -43,7 +57,7 @@ const MovieList = () => {
 
         <div className="movie_cards">
             {
-                movies.map(movie => <MovieCard key={movie.id} movie ={movie}/>)
+                filterMovies.map(movie => <MovieCard key={movie.id} movie ={movie}/>)
             }        
         </div>
     </section>
